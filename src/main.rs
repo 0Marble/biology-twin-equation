@@ -28,28 +28,32 @@ fn main() {
     let w = |x: f64| (-(x.abs())).exp() * q(x) / (1.0 + (-(x.abs())).exp() * r(x));
     let c = |x: f64| 1.0 + (-(x.abs())).exp() * r(x);
 
-    // let p = 1.0;
-    // let a = 1.0;
-    // let n = 2;
-    // let y = a * std::f64::consts::PI * (a + 5.0 * p * p) * (a + 8.0 * p * p)
-    //     / (p * (a * a + 21.0 * a * p * p + 120.0 * p * p * p * p));
-    // let m = |x: f64| p / (x * x + p * p) * std::f64::consts::FRAC_1_PI;
-    // let w = |x: f64| a / (x * x + (n as f64 + 1.0).powi(2) * p * p);
-    // let c = |x: f64| 1.0 + 24.0 / (71.0 * (x * x + 1.0)) + 40.0 / (71.0 * (x * x + 4.0));
-
     let width = 15.0;
     let node_count = 5000;
     let comparison_point_count = 5000;
-    let prefix = "exponent";
 
-    let method = GalerkinMethod::new(
+    let nystrom = NystromMethod::new(Box::new(LUSolver), node_count);
+    let galerkin = GalerkinMethod::new(
         Box::new(TrapezoidIntegrator::new(node_count / 4)),
         Box::new(LUSolver),
         Box::new(|t: f64| (1.0f64 - t.powi(2)).sqrt()),
         60,
     );
+    let galerkin_fourier = GalerkinMethodWithFourier::new(
+        Box::new(TrapezoidIntegrator::new(node_count / 10)),
+        Box::new(LUSolver),
+        Box::new(|t: f64| (1.0f64 - t.powi(2)).sqrt()),
+        400,
+    );
+    let neumann = NeumannMethod::new(
+        500,
+        node_count,
+        Box::new(TrapezoidIntegrator::new(node_count)),
+    );
+
+    let prefix = "exponent";
     test_method(
-        &method,
+        &galerkin,
         &m,
         &w,
         y,
@@ -60,14 +64,8 @@ fn main() {
         "results",
         prefix,
     );
-    let method = GalerkinMethodWithFourier::new(
-        Box::new(TrapezoidIntegrator::new(node_count / 10)),
-        Box::new(LUSolver),
-        Box::new(|t: f64| (1.0f64 - t.powi(2)).sqrt()),
-        400,
-    );
     test_method(
-        &method,
+        &galerkin_fourier,
         &m,
         &w,
         y,
@@ -79,13 +77,8 @@ fn main() {
         prefix,
     );
 
-    let method = NeumannMethod::new(
-        500,
-        node_count,
-        Box::new(TrapezoidIntegrator::new(node_count)),
-    );
     test_method(
-        &method,
+        &neumann,
         &m,
         &w,
         y,
@@ -97,9 +90,68 @@ fn main() {
         prefix,
     );
 
-    let method = NystromMethod::new(Box::new(LUSolver), node_count);
     test_method(
-        &method,
+        &nystrom,
+        &m,
+        &w,
+        y,
+        &c,
+        comparison_point_count,
+        width,
+        "nystrom",
+        "results",
+        prefix,
+    );
+
+    let p = 1.0;
+    let a = 1.0;
+    let n = 2;
+    let y = a * std::f64::consts::PI * (a + 5.0 * p * p) * (a + 8.0 * p * p)
+        / (p * (a * a + 21.0 * a * p * p + 120.0 * p * p * p * p));
+    let m = |x: f64| p / (x * x + p * p) * std::f64::consts::FRAC_1_PI;
+    let w = |x: f64| a / (x * x + (n as f64 + 1.0).powi(2) * p * p);
+    let c = |x: f64| 1.0 + 24.0 / (71.0 * (x * x + 1.0)) + 40.0 / (71.0 * (x * x + 4.0));
+    let prefix = "rational";
+    test_method(
+        &galerkin,
+        &m,
+        &w,
+        y,
+        &c,
+        comparison_point_count,
+        width,
+        "galerkin_taylor",
+        "results",
+        prefix,
+    );
+    test_method(
+        &galerkin_fourier,
+        &m,
+        &w,
+        y,
+        &c,
+        comparison_point_count,
+        width,
+        "galerkin_fourier",
+        "results",
+        prefix,
+    );
+
+    test_method(
+        &neumann,
+        &m,
+        &w,
+        y,
+        &c,
+        comparison_point_count,
+        width,
+        "neumann",
+        "results",
+        prefix,
+    );
+
+    test_method(
+        &nystrom,
         &m,
         &w,
         y,

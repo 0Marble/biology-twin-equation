@@ -9,6 +9,7 @@ pub struct GalerkinMethod {
     integrator: Box<dyn Integrator>,
     equation_solver: Box<dyn LinearEquationSolver>,
     weight_func: Box<dyn Function>,
+
     polynome_degree: usize,
 }
 
