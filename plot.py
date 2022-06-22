@@ -32,14 +32,15 @@ def plot_method(
     plot_csv(difference_file_path, 'r')
     plt.axis([0, 15, 0, 2])
 
-dir = sys.argv[1];
-name = sys.argv[2];
-prefix = sys.argv[3];
+methods = ["galerkin_taylor", "galerkin_fourier", "neumann", "nystrom"]
+prefixes = ["rational", "exponent"]
+dir = "results"
 
-plot_method(
-    name,
-    dir + "/" + prefix + "_" + name + ".csv", 
-    dir + "/" + prefix + "_actual.csv",
-    dir + "/" + prefix + "_" + name + "_diff.csv"
-)
-plt.show()
+for m in methods:
+    for p in prefixes:
+        numeric_file = dir + "/" + p + "_" + m + ".csv"
+        actual_file = dir + "/" + p + "_actual.csv"
+        diff_file = dir + "/" + p + "_" + m + "_diff.csv"
+        plt.figure(p + "_" + m)
+        plot_method(p + "_" + m, numeric_file, actual_file, diff_file)
+        plt.savefig(dir + "/" + p + "_" + m + ".png")
