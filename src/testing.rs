@@ -73,7 +73,7 @@ pub fn test_method(
     });
 
     let mut stats_file =
-        File::create(&format!("{out_dir}/{name_prefix}_{out_name}_stats.csv")).unwrap();
+        File::create(&format!("{out_dir}/{name_prefix}_{out_name}_stats.txt")).unwrap();
     writeln!(
         stats_file,
         "{name_prefix}_{out_name}:
