@@ -1,0 +1,4 @@
+exponent_nystrom:
+	Calculation took 60397ms
+	Saving took 274ms
+	Max difference 0.206517570880127%	Mean: 0.0475922935505549%	Median: 0.04080943625696365%

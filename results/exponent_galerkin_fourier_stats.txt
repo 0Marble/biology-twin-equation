@@ -1,0 +1,4 @@
+exponent_galerkin_fourier:
+	Calculation took 177014ms
+	Saving took 381ms
+	Max difference 1.1834181044712448%	Mean: 0.7384018495218353%	Median: 0.7915746866611537%

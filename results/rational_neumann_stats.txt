@@ -1,0 +1,4 @@
+rational_neumann:
+	Calculation took 29874ms
+	Saving took 325ms
+	Max difference 0.26529517315809104%	Mean: 0.14724564202166374%	Median: 0.13619826510928787%

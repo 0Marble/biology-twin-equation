@@ -1,0 +1,4 @@
+exponent_neumann:
+	Calculation took 54086ms
+	Saving took 326ms
+	Max difference 0.14398790156804342%	Mean: 0.04373087121527245%	Median: 0.04369055015393214%

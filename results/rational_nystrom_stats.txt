@@ -1,0 +1,4 @@
+rational_nystrom:
+	Calculation took 63777ms
+	Saving took 386ms
+	Max difference 0.27048961700966484%	Mean: 0.17047911183555603%	Median: 0.16030069082963838%

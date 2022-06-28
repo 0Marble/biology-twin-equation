@@ -1,0 +1,4 @@
+rational_galerkin_fourier:
+	Calculation took 112850ms
+	Saving took 377ms
+	Max difference 0.26448660076246705%	Mean: 0.1453345456007191%	Median: 0.13983031703837376%

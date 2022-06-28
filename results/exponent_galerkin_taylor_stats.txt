@@ -1,0 +1,4 @@
+exponent_galerkin_taylor:
+	Calculation took 18658ms
+	Saving took 332ms
+	Max difference 9.460229395652153%	Mean: 0.42662460711845307%	Median: 0.20092897975093563%

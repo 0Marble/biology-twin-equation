@@ -1,0 +1,4 @@
+rational_galerkin_taylor:
+	Calculation took 9095ms
+	Saving took 480ms
+	Max difference 42.78200044264817%	Mean: 1.5091918615673503%	Median: 1.5428036429773422%
